@@ -46,9 +46,31 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/onGoings", async (req, res) => {
+      const result = await onGoingCollection.find().toArray();
+      res.send(result);
+    });
+
+    app.get("/completes", async (req, res) => {
+      const result = await completeCollection.find().toArray();
+      res.send(result);
+    });
+
     app.post("/tasks", async (req, res) => {
       const user = req.body;
       const result = await taskCollection.insertOne(user);
+      res.send(result);
+    });
+
+    app.post("/onGoings", async (req, res) => {
+      const user = req.body;
+      const result = await onGoingCollection.insertOne(user);
+      res.send(result);
+    });
+
+    app.post("/completes", async (req, res) => {
+      const user = req.body;
+      const result = await completeCollection.insertOne(user);
       res.send(result);
     });
 
@@ -57,6 +79,22 @@ async function run() {
       console.log(id);
       const query = { _id: new ObjectId(id) };
       const result = await taskCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    app.delete("/onGoings/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await onGoingCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    app.delete("/completes/:id", async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await completeCollection.deleteOne(query);
       res.send(result);
     });
 
