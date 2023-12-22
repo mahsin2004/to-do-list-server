@@ -9,8 +9,8 @@ const port = process.env.PORT || 5000;
 app.use(
   cors({
     origin: [
-      "http://localhost:5173", "http://localhost:5000",
-      // "https://to-do-lists-1.web.app", "https://to-do-list-server-psi.vercel.app"
+      // "http://localhost:5173", "http://localhost:5000",
+      "https://to-do-lists-1.web.app", "https://to-do-list-server-psi.vercel.app"
     ],
   })
 );
@@ -39,8 +39,10 @@ async function run() {
     const onGoingCollection = client.db("taskDB").collection("onGoings");
     const completeCollection = client.db("taskDB").collection("completes");
 
-    app.get("/tasks", async (req, res) => {
-      const result = await taskCollection.find().toArray();
+    app.get("/tasks/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { email };
+      const result = await taskCollection.find(query).toArray();
       res.send(result);
     });
 
